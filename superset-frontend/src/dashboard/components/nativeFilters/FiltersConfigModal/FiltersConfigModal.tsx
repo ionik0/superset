@@ -530,7 +530,7 @@ function FiltersConfigModal({
   return (
     <BaseModalWrapper
       open={isOpen}
-      maskClosable={false}
+      mask={{ closable: false }}
       title={t('Add or edit display controls')}
       expanded={expanded}
       destroyOnHidden

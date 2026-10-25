@@ -281,6 +281,7 @@ const CustomModal = ({
   resizableConfig = defaultResizableConfig(hideFooter),
   draggableConfig,
   destroyOnHidden,
+  maskClosable,
   openerRef,
   bodyStyle,
   styles: stylesProp,
@@ -415,7 +416,8 @@ const CustomModal = ({
           modal
         )
       }
-      mask={shouldShowMask}
+      // antd 6 deprecates `maskClosable` in favor of `mask.closable`
+      mask={{ enabled: shouldShowMask, closable: maskClosable }}
       draggable={draggable}
       resizable={resizable}
       destroyOnHidden={destroyOnHidden}
