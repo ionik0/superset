@@ -242,3 +242,30 @@ describe('Modal draggable', () => {
     expect(isDragged()).toBe(false);
   });
 });
+
+test.each([
+  [false, 0],
+  [undefined, 1],
+])(
+  'maskClosable=%s closes on a mask click %i time(s), without antd deprecation warnings',
+  (maskClosable, closes) => {
+    const consoleError = jest.spyOn(console, 'error').mockImplementation();
+    const onHide = jest.fn();
+    render(
+      <Modal show onHide={onHide} title="Title" maskClosable={maskClosable}>
+        content
+      </Modal>,
+    );
+
+    const wrap = document.querySelector('.ant-modal-wrap') as HTMLElement;
+    fireEvent.mouseDown(wrap);
+    fireEvent.mouseUp(wrap);
+    fireEvent.click(wrap);
+
+    expect(onHide).toHaveBeenCalledTimes(closes);
+    expect(consoleError.mock.calls.flat().join(' ')).not.toContain(
+      'maskClosable',
+    );
+    consoleError.mockRestore();
+  },
+);
