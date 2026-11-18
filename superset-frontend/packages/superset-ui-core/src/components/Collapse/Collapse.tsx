@@ -19,9 +19,13 @@ import { styled } from '@apache-superset/core/theme';
 import { Collapse as AntdCollapse } from 'antd';
 import type { CollapseProps } from './types';
 
-const StyledCollapse = styled((props: CollapseProps) => (
-  <AntdCollapse {...props} />
-))`
+// antd 6 deprecates `expandIconPosition`; forward it as `expandIconPlacement`
+// (the styles below still read it, so callers keep using it unchanged).
+const StyledCollapse = styled(
+  ({ expandIconPosition, ...props }: CollapseProps) => (
+    <AntdCollapse expandIconPlacement={expandIconPosition} {...props} />
+  ),
+)`
   ${({ modalMode }) =>
     modalMode &&
     `

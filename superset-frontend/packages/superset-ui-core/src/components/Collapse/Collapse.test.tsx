@@ -89,3 +89,14 @@ test('collapses on click', async () => {
   );
   expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
 });
+
+test('places the expand icon at the end without an antd deprecation warning', () => {
+  const consoleError = jest.spyOn(console, 'error').mockImplementation();
+  const { container } = renderCollapse({ expandIconPosition: 'end' });
+
+  expect(container.firstChild).toHaveClass('ant-collapse-icon-placement-end');
+  expect(consoleError.mock.calls.flat().join(' ')).not.toContain(
+    'expandIconPosition',
+  );
+  consoleError.mockRestore();
+});
